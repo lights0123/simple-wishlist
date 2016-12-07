@@ -97,7 +97,7 @@ angular.module('simple-wishlist.listView', ['ngRoute', 'ng-sortable', 'ui.bootst
 }]);
 function normalizeLists(data) {
 	var copy = {};
-	if (typeof data !== 'object' || angular.equals(data, {})) return {Untitled: []};
+	if (typeof data !== 'object' || angular.equals(data, {}) || data === null) return {Untitled: []};
 	Object.keys(data).forEach(function (listName) {
 		copy[listName] = [];
 		data[listName].forEach(function (list) {
