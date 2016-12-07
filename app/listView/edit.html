@@ -1,0 +1,33 @@
+<div ng-controller="editCtrl">
+	<button type="button" class="close" aria-label="Close" ng-click="cancel()"><span aria-hidden="true">&times;</span>
+	</button>
+	<input ng-model="copy.name" ng-minlength="1" required name="anim" class="my-input"
+		   aria-describedby="inputDescription" ng-class="{downspace:copy.type == 'section'}"/>
+	<br/>
+	<div ng-if="copy.type != 'section'">
+		<table class="table table-condensed downcondensed" style="overflow: scroll">
+			<thead>
+			<tr>
+				<th>Name</th>
+				<th>URL</th>
+				<th>Price</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="provider in copy.buyat track by $index">
+				<td><input ng-model="provider.name" ng-minlength="1" required aria-describedby="inputDescription"/>
+				</td>
+				<td><input ng-model="provider.link" aria-describedby="inputDescription" type="text"/></td>
+				<td><input ng-model="provider.price" ng-pattern="/^\$?\d*(\.\d{1,2})?$/" name="anim" class="rightspace"
+						   aria-describedby="inputDescription"/><button type="button" class="close" aria-label="Close" ng-click="deletePlace($index)"><span aria-hidden="true">&times;</span>
+				</button></td>
+			</tr>
+			</tbody>
+		</table>
+		<a href="#" class="symbol glyphicon glyphicon-plus" ng-click="$event.preventDefault(); addBuyat();"></a>
+	</div>
+
+	<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+	<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+	<button class="btn btn-danger" type="button" ng-click="delete()">Delete</button>
+</div>

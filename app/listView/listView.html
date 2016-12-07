@@ -1,0 +1,44 @@
+<ul class="menu">
+	<li>
+		<span>Todo Lists:</span>
+	</li>
+	<li ng-repeat="(list,v) in todoLists">
+		<a ng-href="#/listView/{{list}}" ng-class="{active: selectedList==list}"><span>{{list}}</span></a>
+	</li>
+</ul>
+<a href="#" ng-click="$event.preventDefault(); add('item');"><span class="symbol">+</span><span
+		class="smaller"> Item</span></a>
+<a href="#" ng-click="$event.preventDefault(); add('section');"><span class="symbol">+</span><span class="smaller"> Section</span></a>
+<a href="#" ng-click="$event.preventDefault(); import();"><span class="smaller">Import</span></a>
+<div class="opensans">Note:
+	When an item has "- #" at the end, it indicates quantity. Products will either say "includes #" or "price includes
+	#".
+	<br/>"includes #" indicates that the product page includes that number. "price includes #" indicates that although
+	the
+	price is correct, that number will need to be entered as a quantity.
+	<br/></div><div class="opensans moremargin">Priority: <span class="bg-success inline">Low</span> <span class="bg-warning inline">Medium</span> <span class="bg-danger inline">High</span></div>
+<ul ng-sortable="sortableOptions" class="todoList">
+	<li ng-repeat="item in todoLists[selectedList] track by $index" class="centerVertically"
+		ng-class="{section:item.type == 'section','bg-success':item.priority=='low','bg-warning':item.priority=='medium','bg-danger':item.priority=='high'}">
+		<span ng-bind="item.name" class="thirty"></span>
+		<div class="g" ng-if="item.type != 'section'">
+			<br/>
+			<div class="centerHorizontally buyAt">
+				<a ng-repeat="provider in item.buyat track by $index" ng-href="{{provider.link}}" target="_blank">
+					<div class="centerHorizontally">
+						<span ng-bind="provider.name"></span>
+					</div>
+					<div class="centerHorizontally">
+						<span ng-bind="provider.price"></span>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div>
+			<a
+					uib-popover-template="'listView/edit.html'"
+					popover-placement="auto left" popover-is-open="item.popupShown" ng-click="hidePopups();">Edit</a>
+			<span class="hamburger"></span>
+		</div>
+	</li>
+</ul>
