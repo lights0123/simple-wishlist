@@ -3,6 +3,10 @@
 angular.module('simple-wishlist.listView', ['ngRoute', 'ng-sortable', 'ui.bootstrap'])
 
 	.config(['$routeProvider', function ($routeProvider) {
+		$routeProvider.when('/listView/:list/:toImport', {
+			templateUrl: 'listView/listView.html',
+			controller: 'listViewCtrl'
+		});
 		$routeProvider.when('/listView/:list?', {
 			templateUrl: 'listView/listView.html',
 			controller: 'listViewCtrl'
@@ -25,6 +29,7 @@ angular.module('simple-wishlist.listView', ['ngRoute', 'ng-sortable', 'ui.bootst
 			function saveToStorage(){
 				window.localStorage.data = JSON.stringify($scope.todoLists);
 			}
+			window.saveToStorage = saveToStorage;
 			$scope.todoLists = normalizeLists($scope.todoLists);
 			$scope.hidePopups = function () {
 				$scope.todoLists[$scope.selectedList].forEach(function (data) {
@@ -51,6 +56,17 @@ angular.module('simple-wishlist.listView', ['ngRoute', 'ng-sortable', 'ui.bootst
 			}
 			if (Object.keys($scope.todoLists).indexOf($scope.selectedList) === -1) {
 				$scope.selectedList = Object.keys($scope.todoLists)[0];
+			}
+			if($routeParams.toImport!==null&&$routeParams.toImport!==undefined){
+				try{
+					var data = JSON.parse($routeParams.toImport);
+					$scope.todoLists[$scope.selectedList] = data;
+					$scope.todoLists = normalizeLists($scope.todoLists);
+				}catch(e){
+					alert("Error parsing data");
+					console.log(e);
+				}
+				saveToStorage();
 			}
 			$scope.sortableOptions = {
 				animation: 150,
@@ -115,6 +131,7 @@ function normalizeList(data) {
 		copy.type = "section";
 		return copy;
 	}
+	if(data.ordersoon===true) copy.ordersoon=true;
 	if (!Array.isArray(data.buyat)) return copy;
 	if (typeof data.priority === 'string'
 		&& (data.priority = data.priority.toLowerCase())

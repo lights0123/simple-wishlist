@@ -20,7 +20,7 @@
 <ul ng-sortable="sortableOptions" class="todoList">
 	<li ng-repeat="item in todoLists[selectedList] track by $index" class="centerVertically"
 		ng-class="{section:item.type == 'section','bg-success':item.priority=='low','bg-warning':item.priority=='medium','bg-danger':item.priority=='high'}">
-		<span ng-bind="item.name" class="thirty"></span>
+		<div class="thirty"><span ng-bind="item.name"></span><span ng-if="item.ordersoon" class="text-danger"> - Order Soon!</span></div>
 		<div class="g" ng-if="item.type != 'section'">
 			<br/>
 			<div class="centerHorizontally buyAt">
